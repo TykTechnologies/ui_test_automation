@@ -1,10 +1,13 @@
 class Wrapper{
   constructor(selector) {
+    this.selector = selector;
     this.element = $(selector);
   }
 
   click() {
-    this.element.click();
+    $(this.selector).waitForExist();
+    $(this.selector).waitForClickable();
+    $(this.selector).click();
   }
 
   waitForExist() {return this.element.waitForExist();}

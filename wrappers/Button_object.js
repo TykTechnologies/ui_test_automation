@@ -3,12 +3,12 @@ var Wrapper = require('./Wrapper');
 class Button_object extends Wrapper{
   constructor(selector) {
     super(selector);
+    this.selector = selector;
   }
 
   click() {
-    super.waitForClickable();
-    browser.pause(1000);
-    return this.element.click();
+    console.log(`>>> CLicking button: ${this.selector}`);
+    super.click();
   }
 
 }

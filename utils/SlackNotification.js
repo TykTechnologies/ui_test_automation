@@ -1,10 +1,10 @@
 const https = require('https');
 const { Promise } = require('bluebird');
-const git = require('git-rev-sync');
+// const git = require('git-rev-sync');
 var timediff = require('timediff');
 const webHookURL = process.env.SLACK_WEBHOOK_URL;
 
-const mergedResults = require('../../results/json/wdio-merged.json');
+const mergedResults = require('../../../results/json/wdio-merged.json');
 const redHexCode = "#FF0000";
 const greenHexCode = "#2eb886";
 
@@ -33,13 +33,13 @@ let messageBody = {
         "text": `:octocat: *test env*: ${process.env.WDIO_TEST_ENV}`
       }
     },
-    {
-      "type": "section",
-      "text": {
-        "type": "mrkdwn",
-        "text": `:octocat: *git branch for test scripts*: ${git.branch()}`
-      }
-    },
+    // {
+    //   "type": "section",
+    //   "text": {
+    //     "type": "mrkdwn",
+    //     "text": `:octocat: *git branch for test scripts*: ${git.branch()}`
+    //   }
+    // },
     {
       "type": "section",
       "text": {

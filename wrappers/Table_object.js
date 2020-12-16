@@ -29,16 +29,21 @@ class Table_object extends Wrapper {
 
   clickCellWithText(text) {
     this.element.$('tbody').waitForExist();
-    const cell = this.element.$('tbody').$$(`a=${text}`);
-    if (cell.length !== 1)
-      assert.fail(`Unable to click cell with text: ${text}. Number of cells found: ${cell.length}`);
-    cell[0].waitForClickable();
-    try {
-      cell[0].click();
-    } catch (e) {
-      console.warn(`Unable to click cell. Error: ${e}. Trying again!`);
-      this.element.$('tbody').$$(`a=${text}`)[0].click();
+    try{
+      browser.waitUntil(() => this.element.$('tbody').$$(`.//*[normalize-space() = "${text}"]`).length === 1)
+      const cell = this.element.$('tbody').$$(`.//*[normalize-space() = "${text}"]`)[0];
+      cell.click();
     }
+    catch(e) {
+      expect.fail(`Unable to click cell with text: ${text}. ${e}. Number of cells found: ${this.element.$('tbody').$$(`td=${text}`).length}`);
+    }
+
+  }
+
+  isCellWithTextNotDisplayed(text) {
+    if (!this.element.isExisting())
+      return true;
+    return this.element.$('tbody').$(`.//*[normalize-space() = "${text}"]`).waitForExist({ reverse: true })
   }
 
   waitForExist() {return this.element.waitForExist();}

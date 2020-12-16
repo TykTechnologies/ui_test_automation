@@ -14,7 +14,10 @@ class Wrapper{
 
   waitForClickable() { 
     this.waitForExist();
-    return this.element.waitForClickable();}
+    return this.element.waitForClickable();
+  }
+
+  getText() {return $(this.selector).getText();}
 }
 
 module.exports = Wrapper;

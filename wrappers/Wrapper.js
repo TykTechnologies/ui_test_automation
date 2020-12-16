@@ -10,11 +10,11 @@ class Wrapper{
     $(this.selector).click();
   }
 
-  waitForExist() {return this.element.waitForExist();}
+  waitForExist() {return $(selector).waitForExist();}
 
   waitForClickable() { 
     this.waitForExist();
-    return this.element.waitForClickable();
+    return $(selector).waitForClickable();
   }
 
   getText() {return $(this.selector).getText();}

@@ -41,9 +41,9 @@ class Table_object extends Wrapper {
   }
 
   isCellWithTextNotDisplayed(text) {
-    if (!$(this.selector).isExisting())
-      return true;
-    return $(this.selector).$('tbody').$(`.//*[normalize-space() = "${text}"]`).waitForExist({ reverse: true })
+    if ($(this.selector).isExisting())
+      return $(this.selector).$('tbody').$(`.//*[normalize-space() = "${text}"]`).waitForExist({ reverse: true });
+    return true;
   }
 
   waitForExist() {return $(this.selector).waitForExist();}

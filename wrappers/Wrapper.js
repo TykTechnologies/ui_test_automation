@@ -18,6 +18,20 @@ class Wrapper{
   }
 
   getText() {return $(this.selector).getText();}
+
+  waitForDisplayed() {return $(this.selector).waitForDisplayed();}
+
+  getAttribute() {return $(this.selector).getAttribute();}
+
+  getCSSProperty() {return $(this.selector).getCSSProperty();}
+
+  getSize() {return $(this.selector).getSize();}
+
+  isDisplayed() {return $(this.selector).isDisplayed();}
+
+  isExisting() {return $(this.selector).isExisting();}
+
+  waitForExist() {return $(this.selector).waitForExist();}
 }
 
 module.exports = Wrapper;

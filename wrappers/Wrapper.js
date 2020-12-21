@@ -32,6 +32,8 @@ class Wrapper{
   isExisting() {return $(this.selector).isExisting();}
 
   waitForExist() {return $(this.selector).waitForExist();}
+
+  getProperty(property) {return $(this.selector).getProperty(property);}
 }
 
 module.exports = Wrapper;

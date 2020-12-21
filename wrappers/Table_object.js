@@ -28,14 +28,15 @@ class Table_object extends Wrapper {
   }
 
   clickCellWithText(text) {
+    console.log(`>>> Clicking cell with text ${text}`);
     $(this.selector).$('tbody').waitForExist();
     try{
-      browser.waitUntil(() => $(this.selector).$('tbody').$$(`.//*[normalize-space() = "${text}"]`).length === 1)
-      const cell = $(this.selector).$('tbody').$$(`.//*[normalize-space() = "${text}"]`)[0];
+      browser.waitUntil(() => $(this.selector).$('tbody').$$(`.//*[text() = "${text}"]`).length === 1)
+      const cell = $(this.selector).$('tbody').$$(`.//*[text() = "${text}"]`)[0];
       cell.click();
     }
     catch(e) {
-      expect.fail(`Unable to click cell with text: ${text}. ${e}. Number of cells found: ${$(selector).$('tbody').$$(`td=${text}`).length}`);
+      expect.fail(`Unable to click cell with text: ${text}. ${e}. Number of cells found: ${$(this.selector).$('tbody').$$(`td=${text}`).length}`);
     }
 
   }

@@ -7,6 +7,7 @@ class Input_object extends Wrapper{
   }
 
   setValue(value) {
+    console.log(`>>> Setting value ${value} in ${this.selector}`);
     if ($(this.selector).getValue() === '')
       return $(this.selector).setValue(value);
     $(this.selector).doubleClick(); 

@@ -1,11 +1,21 @@
 var Wrapper = require('./Wrapper');
 
+/**
+ * Representing browser dropDown object
+ * @class
+ */
 class DropDown_object extends Wrapper{
   constructor(selector) {
     super(selector);
   }
 
-  selectOption(text) { //TODO refactor
+/**
+ * selecting option.
+ * function will open dropDown list and click on element with provided text
+ * @param {String} option text
+ * @function
+ */
+  selectOption(text) {
     var option = $(`span*=${text}`);
     this.element.waitForExist();
     this.element.click();
@@ -18,6 +28,11 @@ class DropDown_object extends Wrapper{
     option.click();
   }
 
+/**
+ * selecting first option from list.
+ * function will open dropDown list and click on first element
+ * @function
+ */
   selectFirstOption() {
     this.element.click();
     const optionsList = $('.tyk-combobox2__combobox-list');

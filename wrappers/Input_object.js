@@ -1,11 +1,21 @@
 var Wrapper = require('./Wrapper');
 
+/**
+ * Representing browser input object
+ * @class
+ */
 class Input_object extends Wrapper{
   constructor(selector) {
     super(selector);
     this.selector = selector;
   }
 
+/**
+ * setting value of input field.
+ * if field contains any value -> it will be replaced
+ * @param {String} value text
+ * @function
+ */
   setValue(value) {
     console.log(`>>> Setting value ${value} in ${this.selector}`);
     if ($(this.selector).getValue() === '')

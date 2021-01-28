@@ -2,17 +2,18 @@ const https = require('https');
 const { Promise } = require('bluebird');
 // const git = require('git-rev-sync');
 var timediff = require('timediff');
+const fs = require('fs');
 
 const webHookURL = process.env.SLACK_WEBHOOK_URL;
+const pathToResults = '../../../results/json/wdio-merged.json';
 
-try {
-  const mergedResults = require('../../../results/json/wdio-merged.json');
-} catch(e) {
+if (!fs.existsSync(pathToResults)) {
   sendPromise("Test execution failed :this_is_fine:").timeout(10000)
   .catch(Promise.TimeoutError, err => console.log(`>>>> Error while sending failed Slac notification: ${err}`)) 
   throw err;
 }
 
+const mergedResults = require(pathToResults);
 const redHexCode = "#FF0000";
 const greenHexCode = "#2eb886";
 

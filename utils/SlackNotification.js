@@ -52,7 +52,7 @@ let messageBody = {
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": `:link: <https://github.com/${process.env.FRAMEWORK_REPO}/actions/runs/${JOB_RUN_ID}"|Execution page>`
+        "text": `:link: <https://github.com/${process.env.FRAMEWORK_REPO}/actions/runs/${process.env.JOB_RUN_ID}"|Execution page>`
       }
     },
     {

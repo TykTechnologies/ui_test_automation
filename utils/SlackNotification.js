@@ -2,6 +2,7 @@ const https = require('https');
 const { Promise } = require('bluebird');
 // const git = require('git-rev-sync');
 var timediff = require('timediff');
+
 const webHookURL = process.env.SLACK_WEBHOOK_URL;
 
 const mergedResults = require('../../../results/json/wdio-merged.json');
@@ -15,7 +16,7 @@ const duration = timediff(mergedResults.start, mergedResults.end, 'mS');
 
 let messageBody = {
   "username": "Automated test", // This will appear as user name who posts the message
-  "text": "ARA UI automate tests",
+  "text": "UI automate tests",
   "icon_emoji": "#status_icon#", // User icon, default value
   "blocks": [
     //TODO add link and commit message from env
@@ -30,7 +31,14 @@ let messageBody = {
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": `:octocat: *test env*: ${process.env.WDIO_TEST_ENV}`
+        "text": `:computer: *test env*: ${process.env.WDIO_TEST_ENV}`
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": `:tyk17: *triggered by*: ${process.env.EVENT_TRIGGER}`
       }
     },
     // {
@@ -44,14 +52,21 @@ let messageBody = {
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": `:link: <https://github.com/TykTechnologies/ara/actions?query=workflow%3A%22Scheduled+UI+test+run%22|Execution page>`
+        "text": `:link: <https://github.com/${process.env.FRAMEWORK_REPO}/actions/runs/${JOB_RUN_ID}"|Execution page>`
       }
     },
     {
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": `:clock10: Duration: ${duration.minutes}min ${duration.seconds}s`
+        "text": `:github: Framework branch: ${process.env.GIT_BRANCH}`
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": `:clock10: Duration: ${duration.minutes}min ${duration.seconds}s ${(duration.minutes > 5) ? ":this_is_fine:" : ":fast_parrot"}`
       }
     },
     {
@@ -60,7 +75,7 @@ let messageBody = {
         "type": "mrkdwn",
         "text": `:checkered_flag: Tests: 
         Passed - ${mergedResults.state.passed} 
-        Failed - ${mergedResults.state.failed} 
+        Failed - ${mergedResults.state.failed} ${(mergedResults.state.failed > 0) ? ":sad_parrot" : ""} 
         Skipped - ${mergedResults.state.skipped}`
       }
     }

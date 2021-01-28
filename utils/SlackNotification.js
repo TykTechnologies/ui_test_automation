@@ -5,7 +5,14 @@ var timediff = require('timediff');
 
 const webHookURL = process.env.SLACK_WEBHOOK_URL;
 
-const mergedResults = require('../../../results/json/wdio-merged.json');
+try {
+  const mergedResults = require('../../../results/json/wdio-merged.json');
+} catch(e) {
+  sendPromise("Test execution failed :this_is_fine:").timeout(10000)
+  .catch(Promise.TimeoutError, err => console.log(`>>>> Error while sending failed Slac notification: ${err}`)) 
+  throw err;
+}
+
 const redHexCode = "#FF0000";
 const greenHexCode = "#2eb886";
 
@@ -83,7 +90,7 @@ let messageBody = {
   "attachments": [],
 }
 
-const sendPromise = () => { //promise for http request
+const sendPromise = (messageBody) => { //promise for http request
   return new Promise((resolve, reject) => {
     const requestOptions = {
       method: 'POST',
@@ -155,7 +162,7 @@ const sendNotification = () => {
   }
 
   console.log('>>> Sending slack notification: ' + messageBody);
-  sendPromise().timeout(10000)
+  sendPromise(messageBody).timeout(10000)
     .catch(Promise.TimeoutError, err => console.log(`>>>> Error while sending Slac notification: ${err}`)) 
 }
 

@@ -5,15 +5,52 @@ var timediff = require('timediff');
 const fs = require('fs');
 
 const webHookURL = process.env.SLACK_WEBHOOK_URL;
-const pathToResults = '../../../results/json/wdio-merged.json';
+// const pathToResults = '../../../results/json/wdio-merged.json';
+const pathToResults = './wdio-merged.json';
 
-if (!fs.existsSync(pathToResults)) {
-  sendPromise("Test execution failed :this_is_fine:").timeout(10000)
-  .catch(Promise.TimeoutError, err => console.log(`>>>> Error while sending failed Slac notification: ${err}`)) 
-  throw err;
+const sendPromise = (messageBody) => { //promise for http request
+  return new Promise((resolve, reject) => {
+    const requestOptions = {
+      method: 'POST',
+      header: {
+        'Content-Type': 'application/json'
+      }
+    };
+    console.log(`>>> sending notification with message: ${messageBody}`);  
+    const req = https.request(webHookURL, requestOptions, (res) => {
+      let response = '';        
+        
+      res.on('data', (d) => {
+        response += d;
+      });
+        
+      // response finished, resolve the promise with data
+      res.on('end', () => {
+        console.log(">>> Slack notifiction was send")
+        resolve(response);
+      })
+    });
+        
+    // on error -> reject the promise
+    req.on('error', (e) => {
+      reject(e);
+    });
+        
+    req.write(messageBody);
+    req.end();
+  });
 }
 
-const mergedResults = require(pathToResults);
+let mergedResults;
+try{
+  mergedResults = require(pathToResults);
+}catch(e){ //setting values for failed execution report
+  mergedResults = {
+    "state":{"passed":"Error", "failed":`<https://github.com/${process.env.FRAMEWORK_REPO}/actions/runs/${process.env.JOB_RUN_ID}|Please check execution logs>`}, 
+    "suites": []
+  };
+}
+
 const redHexCode = "#FF0000";
 const greenHexCode = "#2eb886";
 
@@ -60,7 +97,7 @@ let messageBody = {
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": `:link: <https://github.com/${process.env.FRAMEWORK_REPO}/actions/runs/${process.env.JOB_RUN_ID}"|Execution page>`
+        "text": `:link: <https://github.com/${process.env.FRAMEWORK_REPO}/actions/runs/${process.env.JOB_RUN_ID}|Execution page>`
       }
     },
     {
@@ -74,7 +111,7 @@ let messageBody = {
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": `:clock10: Duration: ${duration.minutes}min ${duration.seconds}s ${(duration.minutes > 5) ? ":this_is_fine:" : ":fast_parrot"}`
+        "text": `:clock10: Duration: ${duration.minutes}min ${duration.seconds}s ${(duration.minutes > 5) ? ":this_is_fine:" : ":fast_parrot:"}`
       }
     },
     {
@@ -83,44 +120,12 @@ let messageBody = {
         "type": "mrkdwn",
         "text": `:checkered_flag: Tests: 
         Passed - ${mergedResults.state.passed} 
-        Failed - ${mergedResults.state.failed} ${(mergedResults.state.failed > 0) ? ":sad_parrot" : ""} 
+        Failed - ${mergedResults.state.failed} ${(mergedResults.state.failed > 0) ? ":sad_parrot:" : ""} 
         Skipped - ${mergedResults.state.skipped}`
       }
     }
   ],
   "attachments": [],
-}
-
-const sendPromise = (messageBody) => { //promise for http request
-  return new Promise((resolve, reject) => {
-    const requestOptions = {
-      method: 'POST',
-      header: {
-        'Content-Type': 'application/json'
-      }
-    };
-        
-    const req = https.request(webHookURL, requestOptions, (res) => {
-      let response = '';        
-        
-      res.on('data', (d) => {
-        response += d;
-      });
-        
-      // response finished, resolve the promise with data
-      res.on('end', () => {
-        resolve(response);
-      })
-    });
-        
-    // on error -> reject the promise
-    req.on('error', (e) => {
-      reject(e);
-    });
-        
-    req.write(messageBody);
-    req.end();
-  });
 }
 
 const addSteps = (testsResultJson) => { 
@@ -145,7 +150,6 @@ const addTests = () => mergedResults.suites.forEach(describe => {
 
 const sendNotification = () => {
   addTests();
-
   const executionFailed = JSON.stringify(messageBody).includes('Error');
   if (executionFailed){
     messageBody["icon_emoji"] =  ":red_circle:";

@@ -5,8 +5,7 @@ var timediff = require('timediff');
 const fs = require('fs');
 
 const webHookURL = process.env.SLACK_WEBHOOK_URL;
-// const pathToResults = '../../../results/json/wdio-merged.json';
-const pathToResults = './wdio-merged.json';
+const pathToResults = '../../../results/json/wdio-merged.json';
 
 const sendPromise = (messageBody) => { //promise for http request
   return new Promise((resolve, reject) => {

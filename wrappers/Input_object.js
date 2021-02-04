@@ -17,6 +17,7 @@ class Input_object extends Wrapper{
  * @function
  */
   setValue(value) {
+    $(this.selector).clearValue();
     console.log(`>>> Setting value ${value} in ${this.selector}`);
     if ($(this.selector).getValue() === '')
       return $(this.selector).setValue(value);
@@ -24,6 +25,11 @@ class Input_object extends Wrapper{
     $(this.selector).keys("\uE017"); //sending 'delete'
     return $(this.selector).setValue(value);
   }
+
+/**
+ * @function
+ */
+  clearValue() {return $(this.selector).clearValue();}
 
 }
 

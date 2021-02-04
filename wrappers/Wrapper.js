@@ -33,14 +33,14 @@ class Wrapper{
   /**
  * @function
  */
-  waitForExist() {return $(selector).waitForExist();}
+  waitForExist() {return $(this.selector).waitForExist();}
 
 /**
  * @function
  */
   waitForClickable() { 
     this.waitForExist();
-    return $(selector).waitForClickable();
+    return $(this.selector).waitForClickable();
   }
 
 /**
@@ -87,6 +87,16 @@ class Wrapper{
  * @function
  */
   getProperty(property) {return $(this.selector).getProperty(property);}
+
+/**
+ * @function
+ */
+scrollIntoView() {return $(this.selector).scrollIntoView();}
+
+/**
+ * @function
+ */
+waitForEnabled() {return $(this.selector).waitForEnabled();}
 }
 
 module.exports = Wrapper;

@@ -17,6 +17,7 @@ class Button_object extends Wrapper{
  */
   click() {
     console.log(`>>> Clicking button: ${this.selector}`);
+    super.waitForClickable();
     super.click();
   }
 

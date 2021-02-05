@@ -134,8 +134,8 @@ const addSteps = (testsResultJson) => {
     return `${statusIcon} ${test.name} ${statusIcon} ${errorMessage}`}).join("\n") 
 }
 
-const addTests = () => mergedResults.suites.forEach(describe => {
-  let text = addSteps(describe.tests);
+const addTests = () => mergedResults.suites.forEach(describe => {  
+  const text = (describe.test.length !== 0) ? addSteps(describe.tests) : addSteps(describe.hooks);  
   return messageBody["attachments"].push(
     {
       "color": text.includes('Error') ? redHexCode : greenHexCode,

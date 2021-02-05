@@ -131,11 +131,11 @@ const addSteps = (testsResultJson) => {
   return testsResultJson.map(test => { 
     const statusIcon = (test.state === 'passed') ? "" : " :bangbang: "
     const errorMessage = (test.standardError !== undefined) ? `Error: \n ${test.standardError}` : "";
-    return `${statusIcon} ${test.name} ${statusIcon} ${errorMessage}`}).join("\n") 
+    return `${statusIcon} ${test.name} ${test.title} ${statusIcon} ${errorMessage}`}).join("\n") 
 }
 
 const addTests = () => mergedResults.suites.forEach(describe => {  
-  const text = (typeof describe.test !== 'undefined') ? addSteps(describe.tests) : addSteps(describe.hooks);  
+  const text = addSteps({...describe.hooks, ...describe.tests});  
   return messageBody["attachments"].push(
     {
       "color": text.includes('Error') ? redHexCode : greenHexCode,

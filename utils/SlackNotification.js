@@ -7,6 +7,8 @@ const fs = require('fs');
 const webHookURL = process.env.SLACK_WEBHOOK_URL;
 const pathToResults = '../../../results/json/wdio-merged.json';
 
+var isExecutionFailed = false;
+
 const sendPromise = (messageBody) => { //promise for http request
   return new Promise((resolve, reject) => {
     const requestOptions = {
@@ -43,6 +45,7 @@ let mergedResults;
 try{
   mergedResults = require(pathToResults);
 }catch(e){ //setting values for failed execution report
+  isExecutionFailed = true;
   mergedResults = {
     "state":{"passed":"Error", "failed":`<https://github.com/${process.env.FRAMEWORK_REPO}/actions/runs/${process.env.JOB_RUN_ID}|Please check execution logs>`}, 
     "suites": []
@@ -130,6 +133,7 @@ const addTests = () => mergedResults.suites.forEach(describe => {
   const isTestFailed = JSON.stringify(describe.tests).includes('error');
   const isHookFailed = JSON.stringify(describe.hooks).includes('error');
   if (isTestFailed || isHookFailed) {
+    isExecutionFailed = true;
     messageBody["attachments"].push(
       {
         "color": redHexCode,
@@ -141,8 +145,9 @@ const addTests = () => mergedResults.suites.forEach(describe => {
 
 const sendNotification = () => {
   addTests();
-  const executionFailed = messageBody.hasOwnProperty("attachments");
-  if (executionFailed){
+  if (mergedResults.state.failed > 0)
+    isExecutionFailed = true;
+  if (isExecutionFailed){
     messageBody["icon_emoji"] =  ":red_circle:";
     messageBody["text"] += " FAILED!";
   }    

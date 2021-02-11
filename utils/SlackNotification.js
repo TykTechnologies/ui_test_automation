@@ -15,7 +15,6 @@ const sendPromise = (messageBody) => { //promise for http request
         'Content-Type': 'application/json'
       }
     };
-    console.log(`>>> sending notification with message: ${messageBody}`);  
     const req = https.request(webHookURL, requestOptions, (res) => {
       let response = '';        
         
@@ -127,29 +126,22 @@ let messageBody = {
   "attachments": [],
 }
 
-const addSteps = (testsResultJson) => { 
-  return testsResultJson.map(test => { 
-    const statusIcon = (test.state === 'passed') ? "" : " :bangbang: "
-    const errorMessage = (test.standardError !== undefined) ? `Error: \n ${test.standardError}` : "";
-    return `${statusIcon} ${test.name} ${test.title} ${statusIcon} ${errorMessage}`}).join("\n") 
-}
-
 const addTests = () => mergedResults.suites.forEach(describe => {  
-  const text = describe.hooks.includes('Error') ? addSteps(describe.hooks) : addSteps(describe.tests);   
-  return messageBody["attachments"].push(
-    {
-      "color": text.includes('Error') ? redHexCode : greenHexCode,
-      "fallback": "Test was not added!!",
-      "title": `Scenario: ${describe.name}. Tests:`,
-      "text": text,
-
-    }
-  )
+  const isTestFailed = JSON.stringify(describe.tests).includes('error');
+  const isHookFailed = JSON.stringify(describe.hooks).includes('error');
+  if (isTestFailed || isHookFailed) {
+    messageBody["attachments"].push(
+      {
+        "color": redHexCode,
+        "fallback": "Test was not added!!",
+        "title": `<https://github.com/${process.env.FRAMEWORK_REPO}/actions/runs/${process.env.JOB_RUN_ID}|${describe.name}>`  
+      })
+  }
 });
 
 const sendNotification = () => {
   addTests();
-  const executionFailed = JSON.stringify(messageBody).includes('Error');
+  const executionFailed = messageBody.hasOwnProperty("attachments");
   if (executionFailed){
     messageBody["icon_emoji"] =  ":red_circle:";
     messageBody["text"] += " FAILED!";

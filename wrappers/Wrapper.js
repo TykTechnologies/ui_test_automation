@@ -46,6 +46,13 @@ class Wrapper{
 /**
  * @function
  */
+keys(value) { 
+  return $(this.selector).keys(value);
+}
+
+/**
+ * @function
+ */
   getText() {return $(this.selector).getText();}
 
 /**

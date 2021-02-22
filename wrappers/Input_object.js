@@ -21,12 +21,9 @@ class Input_object extends Wrapper{
     console.log(`>>> Setting value ${value} in ${this.selector}`);
     if ($(this.selector).getValue() === '')
       return $(this.selector).setValue(value);
-    $(this.selector).doubleClick(); 
+    $(this.selector).click();
+    $(this.selector).keys(['\uE03D', 'a']);
     $(this.selector).keys("\uE017"); //sending 'delete'
-    if ($(this.selector).getValue() !== '') {
-      $(this.selector).keys(['\uE03D', 'a']);
-      $(this.selector).keys("\uE017"); //sending 'delete'
-    }
     return $(this.selector).setValue(value);
   }
 

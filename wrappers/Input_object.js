@@ -23,6 +23,10 @@ class Input_object extends Wrapper{
       return $(this.selector).setValue(value);
     $(this.selector).doubleClick(); 
     $(this.selector).keys("\uE017"); //sending 'delete'
+    if ($(this.selector).getValue() !== '') {
+      $(this.selector).keys(['Control', 'a']);
+      $(this.selector).keys("\uE017"); //sending 'delete'
+    }
     return $(this.selector).setValue(value);
   }
 

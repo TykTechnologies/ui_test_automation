@@ -51,17 +51,22 @@ class Wrapper{
 /**
  * @function
  */
+  getValue() {return $(this.selector).getValue();}
+
+/**
+ * @function
+ */
   waitForDisplayed() {return $(this.selector).waitForDisplayed();}
 
 /**
  * @function
  */
-  getAttribute() {return $(this.selector).getAttribute();}
+  getAttribute(attributeName) {return $(this.selector).getAttribute(attributeName);}
 
 /**
  * @function
  */
-  getCSSProperty() {return $(this.selector).getCSSProperty();}
+  getCSSProperty(cssProperty) {return $(this.selector).getCSSProperty(cssProperty);}
 
 /**
  * @function
@@ -72,6 +77,16 @@ class Wrapper{
  * @function
  */
   isDisplayed() {return $(this.selector).isDisplayed();}
+
+/**
+ * @function
+ */
+  isClickable() {return $(this.selector).isClickable();}
+
+  /**
+ * @function
+ */
+  isFocused() {return $(this.selector).isFocused();}
 
 /**
  * @function

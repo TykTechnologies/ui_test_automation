@@ -17,7 +17,7 @@ class Table_object extends Wrapper {
  * @returns {int}
  */
   getRowCount() {
-    return $(selector).$('tbody').$$('tr').length;
+    return $(this.selector).$('tbody').$$('tr').length;
   }
 
 /**
@@ -27,7 +27,7 @@ class Table_object extends Wrapper {
  * @returns {map[string]}
  */
   getRowaValues(rowNumber) {
-    const rowElement = $(selector).$('tbody').$$('tr')[rowNumber];
+    const rowElement = $(this.selector).$('tbody').$$('tr')[rowNumber];
     return rowElement.$$('td').map( row => row.getText());
   }
 

@@ -24,6 +24,12 @@ class Input_object extends Wrapper{
     $(this.selector).click();
     $(this.selector).keys(['\uE03D', 'a']);
     $(this.selector).keys("\uE017"); //sending 'delete'
+    //clearing once more if needed
+    if ($(this.selector).getValue() !== '') {
+      browser.pause(1000);
+      $(this.selector).keys(['\uE03D', 'a']);
+      $(this.selector).keys("\uE017"); //sending 'delete'
+    }
     return $(this.selector).setValue(value);
   }
 

@@ -22,15 +22,22 @@ class Input_object extends Wrapper{
     if ($(this.selector).getValue() === '')
       return $(this.selector).setValue(value);
     $(this.selector).click();
-    $(this.selector).keys(['\uE03D', 'a']);
-    $(this.selector).keys("\uE017"); //sending 'delete'
+    this.clear();
     //clearing once more if needed
     if ($(this.selector).getValue() !== '') {
       browser.pause(1000);
-      $(this.selector).keys(['\uE03D', 'a']);
-      $(this.selector).keys("\uE017"); //sending 'delete'
+      this.clear();
     }
     return $(this.selector).setValue(value);
+  }
+
+  clear() {
+    //preparing CTRL/COMMAND key code depending on system
+    const CTRL_KEY =  (process.platform == 'darwin') ? '\uE03D' : 'uE009'; 
+    $(this.selector).keys([CTRL_KEY, 'a']);
+    $(this.selector).keys("\uE017"); //sending 'delete'
+    if ($(this.selector).getValue() !== '')
+      console.warn(`>>> Field was not cleared. Current value: ${$(this.selector).getValue()}`);
   }
 
 /**

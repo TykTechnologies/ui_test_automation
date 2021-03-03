@@ -33,7 +33,7 @@ class Input_object extends Wrapper{
 
   clear() {
     //preparing CTRL/COMMAND key code depending on system
-    const CTRL_KEY =  (process.platform == 'darwin') ? '\uE03D' : 'uE009'; 
+    const CTRL_KEY =  (process.platform == 'darwin') ? '\uE03D' : '\uE009'; 
     $(this.selector).keys([CTRL_KEY, 'a']);
     $(this.selector).keys("\uE017"); //sending 'delete'
     if ($(this.selector).getValue() !== '')

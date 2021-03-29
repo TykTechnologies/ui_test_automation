@@ -16,7 +16,7 @@ class DropDown_object extends Wrapper{
  * @function
  */
   selectOption(text) {
-    var option = $(`span*=${text}`);
+    var option = $(`li*=${text}`);
     this.element.waitForExist();
     this.element.click();
     browser.pause(1000);

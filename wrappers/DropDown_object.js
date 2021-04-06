@@ -16,6 +16,7 @@ class DropDown_object extends Wrapper{
  * @function
  */
   selectOption(text) {
+    console.log(`>>> Selecting option: ${text} in ${this.selector}`);
     var option = $(`li*=${text}`);
     this.element.waitForExist();
     this.element.click();
@@ -27,6 +28,25 @@ class DropDown_object extends Wrapper{
     this.element.click();
     option.click();
   }
+
+/**
+ * selecting multiple options.
+ * function will open dropDown list and click on element with provided text
+ * @param {Array} options array of options to be selected
+ * @function
+ */
+ selectOptions(options) {
+  console.log(`>>> Selecting options: ${options} in ${this.selector}`);
+  this.element.waitForExist();
+  this.element.click();
+  browser.pause(1000);
+  options.forEach(option => {
+    const optionElement = $(`li*=${option}`);
+    optionElement.waitForClickable();
+    optionElement.click();
+  })
+  this.element.keys('\uE00C');//sending Escape to close the list
+}
 
 /**
  * selecting first option from list.

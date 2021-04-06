@@ -20,6 +20,15 @@ class Wrapper{
     $(this.selector).click();
   }
 
+  /**
+ * Clicking object
+ * if button not exists or is not clickable - function will wait
+ * @function
+ */
+   $(selector) {
+    return this.element.$(selector);
+  }
+
 /**
  * Clicking browser object using js command executed inside browser
  * Could be used when regular $element.click() is not working

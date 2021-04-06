@@ -32,6 +32,7 @@ class Input_object extends Wrapper{
   }
 
   clear() {
+    $(this.selector).click();
     //preparing CTRL/COMMAND key code depending on system
     const CTRL_KEY =  (process.platform == 'darwin') ? '\uE03D' : '\uE009'; 
     $(this.selector).keys([CTRL_KEY, 'a']);

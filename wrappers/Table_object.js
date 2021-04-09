@@ -14,7 +14,7 @@ class Table_object extends Wrapper {
  * getting count of currently displayed rows.
  * each 'tr' type node is counted as separate row
  * @function
- * @returns {int}
+ * @return {int}
  */
   getRowCount() {
     return $(this.selector).$('tbody').$$('tr').length;
@@ -24,18 +24,27 @@ class Table_object extends Wrapper {
  * getting values from n'th row. Return values as map
  * @function
  * @param {int} rowNumber row number 0-indexed
- * @returns {map[string]}
+ * @return {String[]}
  */
-  getRowaValues(rowNumber) {
-    const rowElement = $(this.selector).$('tbody').$$('tr')[rowNumber];
-    return rowElement.$$('td').map( row => row.getText());
+  getRowValues(rowNumber) {
+    return this.getRow(rowNumber).$$('td').map( row => row.getText());
+  }
+
+/**
+ * getting values from n'th row. Return values as map
+ * @function
+ * @param {int} rowNumber row number 0-indexed
+ * @return {String[]}
+ */
+  getRow(rowNumber) {
+  return $(this.selector).$('tbody').$$('tr')[rowNumber];
   }
 
 /**
  * getting values from first row that includes given value. Return values as map
  * @function
  * @param {String} cellValue value of cell to find. For example user name -> to get values that are in user row
- * @returns {map[string]}
+ * @returns {String[]}
  */
   getRowWithValue(cellValue) {
     for (let rowNumber = 0; rowNumber < this.getRowCount(); rowNumber++) {

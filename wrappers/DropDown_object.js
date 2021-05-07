@@ -60,6 +60,20 @@ class DropDown_object extends Wrapper{
     return optionsList.$$('li')[0].click();
   }
 
+  /**
+   * inputing String values into mixed Input-Dropdown fields 
+   * @param {String} value
+   * @function
+   */
+   setValue(value) {
+    const inputField = $(this.selector).$('input');
+    if (!inputField.isExisting()) {
+      throw 'inputField does not exist on this dropdown'
+    }
+    inputField.setValue(value);
+    inputField.keys("\uE007");    
+  }
+
 }
 
 module.exports = DropDown_object;

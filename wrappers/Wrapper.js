@@ -128,6 +128,11 @@ scrollIntoView() {return $(this.selector).scrollIntoView();}
  * @function
  */
 waitForEnabled() {return $(this.selector).waitForEnabled();}
+
+/**
+ * @function
+ */
+ setValue(value) {return $(this.selector).setValue(value);}
 }
 
 module.exports = Wrapper;

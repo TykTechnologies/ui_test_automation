@@ -134,7 +134,7 @@ const addTests = () => mergedResults.suites.forEach(describe => {
     !test.hasOwnProperty("state") || test.state !== "passed"   
   );
   const isHookFailed = JSON.stringify(describe.hooks).includes('error');
-  if (!isTestPassed || isHookFailed) {
+  if (failedTests.length > 0 || isHookFailed) {
     isExecutionFailed = true;
     messageBody["attachments"].push(
       {

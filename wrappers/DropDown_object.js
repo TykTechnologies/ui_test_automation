@@ -67,6 +67,7 @@ class DropDown_object extends Wrapper{
    */
    setValue(value) {
     const inputField = $(this.selector).$('input');
+    inputField.waitForClickable();
     if (!inputField.isExisting()) {
       throw 'inputField does not exist on this dropdown'
     }

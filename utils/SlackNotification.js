@@ -130,11 +130,11 @@ let messageBody = {
 }
 
 const addTests = () => mergedResults.suites.forEach(describe => {  
-  const isTestFailed = describe.tests.forEach(test => 
-    test.hasOwnProperty("state") && test.state === "passed" 
+  const failedTests = describe.tests.filter(test => 
+    !test.hasOwnProperty("state") || test.state !== "passed"   
   );
   const isHookFailed = JSON.stringify(describe.hooks).includes('error');
-  if (isTestFailed || isHookFailed) {
+  if (!isTestPassed || isHookFailed) {
     isExecutionFailed = true;
     messageBody["attachments"].push(
       {

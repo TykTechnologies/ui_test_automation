@@ -130,9 +130,8 @@ let messageBody = {
 }
 
 const addTests = () => mergedResults.suites.forEach(describe => {  
-  const failedTests = describe.tests.filter(test => 
-    !test.hasOwnProperty("state") || test.state !== "passed"   
-  );
+  
+  const failedTests = describe.tests.filter(test => isTestFailed(test));
   const isHookFailed = JSON.stringify(describe.hooks).includes('error');
   if (failedTests.length > 0 || isHookFailed) {
     isExecutionFailed = true;
@@ -144,6 +143,17 @@ const addTests = () => mergedResults.suites.forEach(describe => {
       })
   }
 });
+
+const isTestFailed = (test) => {
+  if (!test.hasOwnProperty("state")) {
+    return true;
+  }
+  if (test.state === "passed" || test.state === "skipped") {
+    return false;
+  } else {
+    return true;
+  }
+}
 
 const sendNotification = () => {
   addTests();

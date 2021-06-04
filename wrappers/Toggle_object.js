@@ -38,7 +38,8 @@ class Toggle_object extends Wrapper{
     let currentElement = $(this.selector);
     for (let levelsUp = 1; levelsUp <= 6; levelsUp++) {
       currentElement = currentElement.parentElement();
-      if (currentElement.getAttribute('class').includes(containerClass))
+      const currentElementClass = currentElement.getAttribute('class');
+      if (currentElementClass !== null && currentElementClass.includes(containerClass))
         return currentElement;
     }
     throw new Error('Unable to find container for toggle: ' + this.selector);

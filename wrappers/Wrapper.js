@@ -42,7 +42,7 @@ class Wrapper{
   /**
  * @function
  */
-  waitForExist() {return $(this.selector).waitForExist();}
+  waitForExist(settings) {return $(this.selector).waitForExist(settings);}
 
 /**
  * @function

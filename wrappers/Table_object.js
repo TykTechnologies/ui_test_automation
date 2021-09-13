@@ -48,7 +48,7 @@ class Table_object extends Wrapper {
  */
   getRowWithValue(cellValue) {
     for (let rowNumber = 0; rowNumber < this.getRowCount(); rowNumber++) {
-      let rowValues = this.getRowaValues(rowNumber);
+      let rowValues = this.getRowValues(rowNumber);
       if (rowValues.includes(cellValue))
         return rowValues;
     }

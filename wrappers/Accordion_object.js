@@ -7,23 +7,28 @@ var Wrapper = require('./Wrapper');
 class Accordion_object extends Wrapper{
   constructor(selector) {
     super(selector);
+    this.selector = selector;
   }
 
 /**
  * expanding section.
  * function will expand section by clicking on accordion icon.
- * @param {String} option text
  * @function
  */
   expand() {
-    console.log(`>>> Expand section`);
-    var accordionIcon = $(this.selector).$('i').getAttribute('class');
+    console.log(`>>> Trying to expand section`);
+    let accordionIcon = $(this.selector).$('i').getAttribute('class');
+    console.log(accordionIcon);
     if (accordionIcon.includes('fa-chevron-up')) {
       console.log('>>> Section was already expanded');
       return
     }
-    $(this.selector).click();
-    browser.pause(1000);
+    while (accordionIcon.includes('fa-chevron-down')){
+      console.log('>>> clicking to expand')
+      $(this.selector).click();
+      browser.pause(1000);
+      accordionIcon = $(this.selector).$('i').getAttribute('class');
+    }
     if (accordionIcon.includes('fa-chevron-up')) {
       console.log('>>> Section was expanded');
       return
@@ -34,18 +39,22 @@ class Accordion_object extends Wrapper{
 /**
  * collapsing seciton.
  * function will collaps section by clicking on accordion icon
- * @param {Array} options array of options to be selected
  * @function
  */
   collapse() {
-    console.log(`>>> Collapse section`);
-    var accordionIcon = $(this.selector).$('i').getAttribute('class');
+    console.log(`>>> Trying to collapse section`);
+    let accordionIcon = $(this.selector).$('i').getAttribute('class');
+    console.log(accordionIcon);
     if (accordionIcon.includes('fa-chevron-down')) {
       console.log('>>> Section was already collapsed');
       return
     }
-    $(this.selector).click();
-    browser.pause(1000);
+    while (accordionIcon.includes('fa-chevron-up')){
+      console.log('>>> clicking to collapse')
+      $(this.selector).click();
+      browser.pause(1000);
+      accordionIcon = $(this.selector).$('i').getAttribute('class');
+    }
     if (accordionIcon.includes('fa-chevron-down')) {
       console.log('>>> Section was collapsed');
       return

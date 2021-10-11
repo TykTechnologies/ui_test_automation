@@ -1,5 +1,8 @@
 var Wrapper = require('./Wrapper');
 
+const accordionExpandedState = 'fa-chevron-up';
+const accordionCollapsedState = 'fa-chevron-down';
+const retryCount = 5;
 /**
  * Representing browser Accordion object
  * @class
@@ -19,20 +22,20 @@ class Accordion_object extends Wrapper{
     console.log(`>>> Trying to expand section`);
     let accordionIcon = $(this.selector).$('i').getAttribute('class');
     console.log(accordionIcon);
-    if (accordionIcon.includes('fa-chevron-up')) {
+    if (accordionIcon.includes(accordionExpandedState)) {
       console.log('>>> Section was already expanded');
       return
     }
-    let i = 1;
-    while (accordionIcon.includes('fa-chevron-down')){
+    let i = retryCount;
+    while (accordionIcon.includes(accordionCollapsedState) && (i > 0)){
       console.log('>>> clicking to expand')
       $(this.selector).click();
-      i++ ;
+      i-- ;
       browser.pause(1000);
       accordionIcon = $(this.selector).$('i').getAttribute('class');
-      if (i == 5) {
-        throw "Failed to expand section"
-      }
+    }
+    if (accordionIcon.includes(accordionCollapsedState)) {
+      throw '>>> Was not able to expand section'
     }
   }
 
@@ -45,20 +48,20 @@ class Accordion_object extends Wrapper{
     console.log(`>>> Trying to collapse section`);
     let accordionIcon = $(this.selector).$('i').getAttribute('class');
     console.log(accordionIcon);
-    if (accordionIcon.includes('fa-chevron-down')) {
+    if (accordionIcon.includes(accordionCollapsedState)) {
       console.log('>>> Section was already collapsed');
       return
     }
-    let i = 1;
-    while (accordionIcon.includes('fa-chevron-up')){
+    let i = retryCount;
+    while (accordionIcon.includes(accordionExpandedState) && (i > 0)){
       console.log('>>> clicking to collapse')
       $(this.selector).click();
-      i++;
+      i--;
       browser.pause(1000);
       accordionIcon = $(this.selector).$('i').getAttribute('class');
-      if (i == 5) {
-        throw "Failed to colapse section"
-      }
+    }
+    if (accordionIcon.includes(accordionExpandedState)) {
+      throw '>>> Was not able to collapse section'
     }
   }
 

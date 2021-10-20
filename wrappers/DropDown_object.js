@@ -5,8 +5,12 @@ var Wrapper = require('./Wrapper');
  * @class
  */
 class DropDown_object extends Wrapper{
+  get selectorTag() {return "select";}
+  
   constructor(selector) {
     super(selector);
+    this.isDropDownHaveSelectTagName = $(this.selector).getTagName() === this.selectorTag; 
+    this.optionTagName =  (this.isDropDownHaveSelectTagName) ? "option" : "li";
   }
 
 /**
@@ -16,17 +20,17 @@ class DropDown_object extends Wrapper{
  * @function
  */
   selectOption(text) {
-    console.log(`>>> Selecting option: ${text} in ${this.selector}`);
-    var option = $(`li*=${text}`);
+    console.log(`>>> Selecting option: ${this.optionTagName}*=${text} in ${this.selector}`);
+    const optionElement = $(`${this.optionTagName}*=${text}`);
     this.element.waitForExist();
     this.element.click();
     browser.pause(1000);
-    if (option.isExisting()) {
-      option.click();
+    if (optionElement.isClickable()) {
+      optionElement.click();
       return;
     }
     this.element.click();
-    option.click();
+    optionElement.click();
   }
 
 /**
@@ -41,7 +45,7 @@ class DropDown_object extends Wrapper{
   this.element.click();
   browser.pause(1000);
   options.forEach(option => {
-    const optionElement = $(`li*=${option}`);
+    const optionElement = $(`${this.optionTagName}*=${option}`);
     optionElement.waitForClickable();
     optionElement.click();
   })
@@ -57,7 +61,7 @@ class DropDown_object extends Wrapper{
     this.element.click();
     const optionsList = $('.tyk-combobox2__combobox-list');
     optionsList.waitForExist();
-    return optionsList.$$('li')[0].click();
+    return optionsList.$$(`${this.optionTagName}`)[0].click();
   }
 
   /**

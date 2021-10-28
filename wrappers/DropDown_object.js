@@ -9,8 +9,12 @@ class DropDown_object extends Wrapper{
   
   constructor(selector) {
     super(selector);
-    this.isDropDownHaveSelectTagName = $(this.selector).getTagName() === this.selectorTag; 
-    this.optionTagName =  (this.isDropDownHaveSelectTagName) ? "option" : "li";
+    if ($(this.selector).isExisting()) {
+      this.isDropDownHaveSelectTagName = $(this.selector).getTagName() === this.selectorTag; 
+      this.optionTagName =  (this.isDropDownHaveSelectTagName) ? "option" : "li";
+      return;
+    }
+    this.optionTagName = "li";
   }
 
 /**

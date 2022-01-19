@@ -19,23 +19,27 @@ class DropDown_object extends Wrapper{
 
 /**
  * selecting option.
- * function will open dropDown list and click on element with provided text
+ * function will open dropDown list and click on element equal to provided text or
+ * with provided text if equal text option does not exist
  * @param {String} option text
  * @function
  */
-  selectOption(text) {
-    console.log(`>>> Selecting option: ${this.optionTagName}*=${text} in ${this.selector}`);
-    const optionElement = $(`${this.optionTagName}*=${text}`);
-    this.element.waitForExist();
-    this.element.click();
-    browser.pause(1000);
-    if (optionElement.isClickable()) {
-      optionElement.click();
-      return;
-    }
-    this.element.click();
+ selectOption(text) {
+  console.log(`>>> Selecting option: ${this.optionTagName}=${text} in ${this.selector}`);
+  let optionElement = $(`${this.optionTagName}=${text}`);
+  this.element.waitForExist();
+  this.element.click();
+  if (!optionElement.isExisting()){
+    optionElement = $(`${this.optionTagName}*=${text}`);
+  } 
+  browser.pause(1000);
+  if (optionElement.isClickable()) {
     optionElement.click();
+    return;
   }
+  this.element.click();
+  optionElement.click();
+}  
 
 /**
  * selecting multiple options.

@@ -39,6 +39,30 @@ class DropDown_object extends Wrapper{
   }
   this.element.click();
   optionElement.click();
+}
+
+/**
+ * selecting option in a combobox object.
+ * function will click on element equal to provided text or
+ * with provided text if equal text option does not exist
+ * it does not click the dropdown list
+ * @param {String} option text
+ * @function
+ */
+selectComboboxOption(text) {
+  console.log(`>>> Selecting option: ${this.optionTagName}=${text} in ${this.selector}`);
+  let optionElement = $(`//${this.optionTagName}//span[text()="${text}"]`);
+  this.element.waitForExist();  
+  if (!optionElement.isExisting()){
+    optionElement = $(`${this.optionTagName}*=${text}`);
+  }
+  browser.pause(1000);
+  if (optionElement.isClickable()) {
+    optionElement.click();
+    return;
+  }
+  this.element.click();
+  optionElement.click();
 }  
 
 /**

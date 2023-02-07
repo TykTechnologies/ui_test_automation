@@ -122,7 +122,8 @@ let messageBody = {
         "text": `:checkered_flag: Tests: 
         Passed - ${mergedResults.state.passed} 
         Failed - ${mergedResults.state.failed} ${(mergedResults.state.failed > 0) ? ":sad_parrot:" : ""} 
-        Skipped - ${mergedResults.state.skipped}`
+        Skipped - ${mergedResults.state.skipped}
+       ${(mergedResults.state.failed > 0) ? "cc ${process.env.SLACK_USER_NAME}" : ""}`
       }
     }
   ],

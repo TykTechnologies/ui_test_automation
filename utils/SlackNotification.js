@@ -26,7 +26,7 @@ const sendPromise = (messageBody) => { //promise for http request
         
       // response finished, resolve the promise with data
       res.on('end', () => {
-        console.log(">>> Slack notifiction was send")
+        console.log(">>> Slack notifiction was sent")
         resolve(response);
       })
     });

@@ -5,6 +5,7 @@ var timediff = require('timediff');
 const fs = require('fs');
 
 const webHookURL = process.env.SLACK_WEBHOOK_URL;
+const slackUser = process.env.SLACK_USER_NAME || "";
 const pathToResults = '../../../results/json/wdio-merged.json';
 
 var isExecutionFailed = false;
@@ -123,7 +124,7 @@ let messageBody = {
         Passed - ${mergedResults.state.passed} 
         Failed - ${mergedResults.state.failed} ${(mergedResults.state.failed > 0) ? ":sad_parrot:" : ""} 
         Skipped - ${mergedResults.state.skipped}
-       ${(mergedResults.state.failed > 0) ? "cc ${process.env.SLACK_USER_NAME}" : ""}`
+        ${(mergedResults.state.failed > 0) && slackUser !=""  ? `cc ${slackUser}` : ""}`
       }
     }
   ],

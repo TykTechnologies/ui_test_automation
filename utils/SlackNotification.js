@@ -5,6 +5,7 @@ var timediff = require('timediff');
 const fs = require('fs');
 
 const webHookURL = process.env.SLACK_WEBHOOK_URL;
+const slackUser = process.env.SLACK_USER_NAME || "";
 const pathToResults = '../../../results/json/wdio-merged.json';
 
 var isExecutionFailed = false;
@@ -26,7 +27,7 @@ const sendPromise = (messageBody) => { //promise for http request
         
       // response finished, resolve the promise with data
       res.on('end', () => {
-        console.log(">>> Slack notifiction was send")
+        console.log(">>> Slack notifiction was sent")
         resolve(response);
       })
     });
@@ -122,7 +123,8 @@ let messageBody = {
         "text": `:checkered_flag: Tests: 
         Passed - ${mergedResults.state.passed} 
         Failed - ${mergedResults.state.failed} ${(mergedResults.state.failed > 0) ? ":sad_parrot:" : ""} 
-        Skipped - ${mergedResults.state.skipped}`
+        Skipped - ${mergedResults.state.skipped}
+        ${(mergedResults.state.failed > 0) && slackUser !=""  ? `cc ${slackUser}` : ""}`
       }
     }
   ],

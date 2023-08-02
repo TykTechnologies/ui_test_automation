@@ -12,6 +12,9 @@ class DropDown_object extends Wrapper{
     if ($(this.selector).isExisting()) {
       this.isDropDownHaveSelectTagName = $(this.selector).getTagName() === this.selectorTag; 
       this.optionTagName =  (this.isDropDownHaveSelectTagName) ? "option" : "li";
+      if ($(this.selector).getTagName() === 'div'){
+        this.optionTagName = 'div'
+      }
       return;
     }
     this.optionTagName = "li";
